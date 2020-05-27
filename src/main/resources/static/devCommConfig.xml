@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="GBK"?>
+<devCommCon>
+  <devece commid="11" devid="21240001" devip="127.0.0.1" devport="2222" devaddr="1"/>
+  <devece commid="22" devid="21240002" devip="127.0.0.1" devport="3333" devaddr="1"/>
+  <devece commid="33" devid="21240003" devip="127.0.0.1" devport="4444" devaddr="1"/>
+</devCommCon>

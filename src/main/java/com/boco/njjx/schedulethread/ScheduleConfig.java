@@ -1,4 +1,4 @@
-package com.boco.njjx.commonCenter;
+package com.boco.njjx.schedulethread;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

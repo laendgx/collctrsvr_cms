@@ -2,7 +2,7 @@ package com.boco.njjx.constant;
 
 /**
  * 常量类
- * @author 孙冠义
+ * @author dgx
  *
  */
 public class DriverConst {

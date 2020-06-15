@@ -1,7 +1,5 @@
 package com.boco.njjx.driver;
 
-import com.boco.njjx.entity.TTCPCommParam;
-
 import java.io.Serializable;
 /**
  * 用于注册通信端口的信息

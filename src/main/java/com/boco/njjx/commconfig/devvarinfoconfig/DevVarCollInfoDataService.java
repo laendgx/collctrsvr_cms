@@ -1,10 +1,8 @@
-package com.boco.njjx.commconfig;
-
-import com.boco.njjx.driver.TDriverVarInfo;
+package com.boco.njjx.commconfig.devvarinfoconfig;
 
 import java.util.List;
 
 public interface DevVarCollInfoDataService {
-    List<DevVarCollInfo> getlistDevVarInfo() throws Exception;
+    List<DevVarCollInfo> getListDevVarInfo() throws Exception;
     List<DevVarCollInfo>  getCurDevVarCollInfo(String devTypeid)  throws Exception;
 }

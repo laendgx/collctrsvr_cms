@@ -1,9 +1,9 @@
 package cms.impl;
 
-import com.boco.njjx.cmsprotocolBody.Iconlist;
-import com.boco.njjx.cmsprotocolBody.Itemlist;
-import com.boco.njjx.cmsprotocolBody.Playlist;
-import com.boco.njjx.cmsprotocolBody.Wordlsit;
+import com.boco.cmsprotocolBody.IconList;
+import com.boco.cmsprotocolBody.ItemList;
+import com.boco.cmsprotocolBody.PlayList;
+import com.boco.cmsprotocolBody.WordList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
@@ -34,13 +34,13 @@ public class GroupNJJXCmsProtocol {
 	public String buildProtocal(String PlaylistTemp) {
 		String result = "";
 		try {
-		Playlist PlaylistValue=  (Playlist)JSONToObj(PlaylistTemp,Playlist.class);//下发播放表信息
+		PlayList playListValue =  (PlayList)JSONToObj(PlaylistTemp, PlayList.class);//下发播放表信息
 
 		int id = 0;
 		result = "[playlist]" + "\r\n" + 
-				"item_no=" + PlaylistValue.getItemlist().size() +  "\r\n";
-		for(Itemlist entity :  PlaylistValue.getItemlist()){
-			String itemProtocal = this.buildItemProtocal(entity,PlaylistValue.getDpt());
+				"item_no=" + playListValue.getItemList().size() +  "\r\n";
+		for(ItemList entity :  playListValue.getItemList()){
+			String itemProtocal = this.buildItemProtocal(entity, playListValue.getDpt());
 			itemProtocal = "item" + id + "=" + itemProtocal + "\r\n";
 			result += itemProtocal;
 			id++;
@@ -56,7 +56,7 @@ public class GroupNJJXCmsProtocol {
 	 * 将单条播放表转换为情报板协议
 	 * @return
 	 */
-	private String buildItemProtocal(Itemlist item,int dispScrType){
+	private String buildItemProtocal(ItemList item, int dispScrType){
 			Integer delay = item.getDelay() * 100;
 			Integer trans = item.getMode();
 			//para当出字方式为 0 或 1 时，speed 无用；当出字方式为 2-21 时，speed 表示出字速度，范围 0-49，默认 为 0，0 表示最快。
@@ -68,7 +68,7 @@ public class GroupNJJXCmsProtocol {
 			
 			String protocolString = delay + "," + trans + "," + speed + ",";
 			
-			List<Iconlist> graphs = item.getGraphList();
+			List<IconList> graphs = item.getGraphList();
 			String graphProtocol = graphParaToString(graphs);
 			protocolString += graphProtocol;
 			
@@ -81,18 +81,18 @@ public class GroupNJJXCmsProtocol {
 	 * @param //Itemlist
 	 * @return
 	 */
-	private String wordParaToString(Itemlist item,int dispScrType){
+	private String wordParaToString(ItemList item, int dispScrType){
 		String result = "";
 		if (item == null){
 			return result;
 		}
 		
-		List<Wordlsit> list = item.getWordList();
+		List<WordList> list = item.getWordList();
 		if (list == null || list.size() == 0){
 			return result;
 		}
 		
-		for(Wordlsit para : list){
+		for(WordList para : list){
 			if (para.getWx() == null){
 				result += "\\C000";
 			}else{
@@ -158,12 +158,12 @@ public class GroupNJJXCmsProtocol {
 	/**
 	 * 将可变情报板图标参数转换为协议字符串
 	 */
-	private String graphParaToString(List<Iconlist> list) {
+	private String graphParaToString(List<IconList> list) {
 		String result = "";
 		if (list == null || list.size() == 0)
 			return result;
 
-		for(Iconlist icon : list){
+		for(IconList icon : list){
 		result +=  "\\C" + this.intTo3SizeString(icon.getGx()) + this.intTo3SizeString(icon.getGy()) +
 			   "\\B" + icon.getGid();
 		}

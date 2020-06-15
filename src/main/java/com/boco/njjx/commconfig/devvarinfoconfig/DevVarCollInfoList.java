@@ -1,6 +1,5 @@
-package com.boco.njjx.commconfig;
+package com.boco.njjx.commconfig.devvarinfoconfig;
 
-import com.boco.njjx.driver.TDriverVarInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

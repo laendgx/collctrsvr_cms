@@ -62,8 +62,8 @@ public class Request {
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			baos.write(addr.getBytes("GBK"));
-			baos.write(frameType.getBytes("GBK"));
+			baos.write(addr.getBytes("utf-8"));
+			baos.write(frameType.getBytes("utf-8"));
 			baos.write(data);
 			
 		} catch (IOException e) {			
@@ -82,7 +82,7 @@ public class Request {
 		
 			try {
 				return "Request [addr=" + addr + ", frameType=" + frameType + ", data="
-						+ new String(data,"GBK") + "]";
+						+ new String(data,"utf-8") + "]";
 			} catch (UnsupportedEncodingException e) {				
 				e.printStackTrace();
 				return null;

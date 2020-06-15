@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -13,16 +12,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import cms.impl.GroupNJJXCmsProtocol;
-import com.boco.njjx.cmsprotocolBody.Playlist;
 import com.boco.njjx.constant.ConstVarient;
 import com.boco.njjx.constant.DriverPubConst;
-import com.boco.njjx.model.TAddressParseInfo;
-import com.boco.njjx.protocolBody.*;
 import com.boco.njjx.tcpcomm.IMessageListener;
 import com.boco.njjx.tcpcomm.IPortStatusListener;
 import com.boco.njjx.tcpcomm.TTCPComm;
 
 import com.boco.njjx.utils.CoderUtils;
+import com.boco.protocolBody.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -34,7 +31,6 @@ import com.boco.njjx.constant.DriverConst;
 import com.boco.njjx.tcpcomm.MsgDealHandler;
 import com.boco.njjx.model.Request;
 import com.boco.njjx.model.Response;
-import com.boco.njjx.model.TAddressInfo;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +54,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 	/**
 	 * 驱动的通讯端口编号属性
 	 */
-	private TCommPortInfo portInfo;
+	public TCommPortInfo portInfo;
 	/**
 	 * 编码
 	 */
@@ -223,8 +219,8 @@ public class TDriver implements IMessageListener, IPortStatusListener {
      */
     public boolean sendData(String businessNo, DevVarInfo devVarInfo)
     {
-		String devvartypeid=devVarInfo.getDevvartypeid();
-		String sendStr = devVarInfo.getDevvarvalue();
+		String devvartypeid=devVarInfo.getDevVarTypeId();
+		String sendStr = devVarInfo.getDevVarValue();
 		//LOGGER.info("-------------------------->下发数据"+devvartypeid+" "+sendStr);
 
 		boolean result = false;
@@ -250,7 +246,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
              	System.out.println("下发播放表--->"+playlist);
 
             	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            	baos.write("PLAY.LST".getBytes("GBK"));
+            	baos.write("PLAY.LST".getBytes("utf-8"));
 
             	//加入文件名结束符
             	byte[] fileNameOverFlagArr = new byte[]{0x2B};
@@ -259,14 +255,14 @@ public class TDriver implements IMessageListener, IPortStatusListener {
             	byte[] connArr = new byte[]{0,0,0,0};
             	baos.write(connArr);
 
-            	baos.write(playlist.getBytes("GBK"));
+            	baos.write(playlist.getBytes("utf-8"));
 
             	ArrSend = baos.toByteArray();
                 break;
             case DriverConst.Const_Cmd_Bright: //设备屏幕亮度
 				if (sendDriverVarInfo.getSzFuncAbbr().equals("MOD")) {
 					try {
-					fValue = Integer.parseInt(devVarInfo.getDevvarvalue());
+					fValue = Integer.parseInt(devVarInfo.getDevVarValue());
 					int defaultBri = 23;
 					//0-自动; 1-手动
 					Dummy = fValue + "" + CoderUtils.IntTo2SizeString(defaultBri)
@@ -285,7 +281,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 						Dummy = "1" + CoderUtils.IntTo2SizeString(fValue)
 								+ CoderUtils.IntTo2SizeString(fValue)
 								+ CoderUtils.IntTo2SizeString(fValue);
-						ArrSend = Dummy.getBytes("GBK");
+						ArrSend = Dummy.getBytes("utf-8");
 					} catch (Exception ex) {
 						LOGGER.error("控制情报板亮度时，下发的数据无法转换为整型数.错误信息:"
 								+ ex.getMessage());
@@ -415,7 +411,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 			String curTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 			String Devid=this.portInfo.getSzDevId();
 			Protocolbody Protocolbodytemp = new Protocolbody();
-			Protocolbodytemp.setBusinessno(businessNo);
+			Protocolbodytemp.setBusinessNo(businessNo);
 			Protocolbodytemp.setInfoType(InfoType.MSG_CMD_CMS);
 			Identity Identitytemp=new Identity();
 			Identitytemp.setSourceId("collctrsvr_njjx_cms");
@@ -424,7 +420,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 			Protocolbodytemp.setIdentity(Identitytemp);
 
 			SubPackage subPackage = new SubPackage();
-			subPackage.setOrgId("1101");
+			subPackage.setOrgId("20300");
 			subPackage.setDevId(Devid);
 			subPackage.setCollCtrTime(curTime);
 
@@ -461,7 +457,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 			String Devid=this.portInfo.getSzDevId();
 			String DevTypeid=this.portInfo.getSzDevId().substring(0,4);
 			Protocolbody Protocolbodytemp = new Protocolbody();
-			Protocolbodytemp.setBusinessno(businessNo);
+			Protocolbodytemp.setBusinessNo(businessNo);
 			Identity Identitytemp = new Identity();
 			Identitytemp.setSourceId("collctrsvr_NJJX");
 			Identitytemp.setTargetId("jkcommctrsvr");
@@ -470,7 +466,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 			Protocolbodytemp.setInfoType(InfoType.MSG_DATA_CMS);
 
 			SubPackage subPackage = new SubPackage();
-			subPackage.setOrgId("1101");
+			subPackage.setOrgId("20300");
 			subPackage.setDevId(Devid);
 			subPackage.setCollCtrTime(curTime);
 
@@ -486,10 +482,10 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 						int ERValue = (parseInt >> bit) & 1; //获取设备状态值
 
 						DevVarInfo devVarInfo = new DevVarInfo();
-						devVarInfo.setDevvartypeid(driverVarInfo.getDwVariantId().toString());
-						devVarInfo.setDevvartypedesc(driverVarInfo.getSzVariantDesc());
-						devVarInfo.setDevvarvalue(String.valueOf(ERValue));
-						devVarInfo.setDevvargroupid("1");
+						devVarInfo.setDevVarTypeId(driverVarInfo.getDwVariantId().toString());
+						devVarInfo.setDevVarTypeDesc(driverVarInfo.getSzVariantDesc());
+						devVarInfo.setDevVarValue(String.valueOf(ERValue));
+						devVarInfo.setDevVarGroupId("1");
 						DevVarInfolist.add(devVarInfo);
 					} catch(Exception ex){
 						ex.printStackTrace();
@@ -552,7 +548,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
         try
         {
         	if (future != null){
-				LOGGER.info("future超时检测停止");
+				//LOGGER.info("future超时检测停止");
         		future.cancel(true);
         		future = null;
         	}
@@ -734,12 +730,12 @@ public class TDriver implements IMessageListener, IPortStatusListener {
      */
     public void RabbitmqDevStatusSend(String businessNo,String DevStatusValue) {
         try {
-            System.out.println("上传设备通讯状态");
+            //System.out.println("上传设备通讯状态");
             String curTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String Devid=this.portInfo.getSzDevId();
             String DevTypeid=this.portInfo.getSzDevId().substring(0,4);
             Protocolbody Protocolbodytemp = new Protocolbody();
-            Protocolbodytemp.setBusinessno(businessNo);
+            Protocolbodytemp.setBusinessNo(businessNo);
             Identity Identitytemp = new Identity();
             Identitytemp.setSourceId("collctrsvr_NJJX");
             Identitytemp.setTargetId("jkcommctrsvr");
@@ -748,7 +744,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
             Protocolbodytemp.setInfoType(InfoType.MSG_DATA_CMS);
 
             SubPackage subPackage = new SubPackage();
-            subPackage.setOrgId("1101");
+            subPackage.setOrgId("20300");
             subPackage.setDevId(Devid);
             subPackage.setCollCtrTime(curTime);
 
@@ -759,10 +755,10 @@ public class TDriver implements IMessageListener, IPortStatusListener {
                     if (driverVarInfo.getSzFuncAbbr().indexOf("COM") >= 0){
                         try{
                             DevVarInfo devVarInfo = new DevVarInfo();
-                            devVarInfo.setDevvartypeid(driverVarInfo.getDwVariantId().toString());
-                            devVarInfo.setDevvartypedesc(driverVarInfo.getSzVariantDesc());
-                            devVarInfo.setDevvarvalue(DevStatusValue);
-                            devVarInfo.setDevvargroupid("1");
+                            devVarInfo.setDevVarTypeId(driverVarInfo.getDwVariantId().toString());
+                            devVarInfo.setDevVarTypeDesc(driverVarInfo.getSzVariantDesc());
+                            devVarInfo.setDevVarValue(DevStatusValue);
+                            devVarInfo.setDevVarGroupId("1");
                             DevVarInfolist.add(devVarInfo);
                         } catch(Exception ex){
                             ex.printStackTrace();
@@ -796,11 +792,11 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 				rabbitTemplate.setExchange(Exchange);
 				rabbitTemplate.setRoutingKey(RoutingKey);
 				rabbitTemplate.convertAndSend(jsonstr);
-				System.out.println("SendRabbitmq: " + "\n" + "Exchange-->" + Exchange + "   " +
-						"RoutingKey-->" + RoutingKey + "\n" + jsonstr);
+//				System.out.println("SendRabbitmq: " + "\n" + "Exchange-->" + Exchange + "   " +
+//						"RoutingKey-->" + RoutingKey + "\n" + jsonstr);
 			} else {
-				System.out.println("SendRabbitmq数据发送不能为空， " + "\n" + "Exchange-->" + Exchange +
-						"RoutingKey-->" + RoutingKey + "\n" + jsonstr);
+//				System.out.println("SendRabbitmq数据发送不能为空， " + "\n" + "Exchange-->" + Exchange +
+//						"RoutingKey-->" + RoutingKey + "\n" + jsonstr);
 			}
 		}catch (Exception ex){
 			ex.printStackTrace();

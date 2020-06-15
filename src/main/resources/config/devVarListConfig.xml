@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<devVarList>
+  <devece dwdevTypeId="2124" dwVariantId="212401" szVariantDesc="播放表" dwSendCmd="10" dwRecvCmd="10" szFuncAbbr="LST"/>
+  <devece dwdevTypeId="2124" dwVariantId="212402" szVariantDesc="亮度" dwSendCmd="03" dwRecvCmd="03" szFuncAbbr="BRI"/>
+  <devece dwdevTypeId="2124" dwVariantId="212403" szVariantDesc="亮度模式" dwSendCmd="03" dwRecvCmd="03" szFuncAbbr="MOD"/>
+  <devece dwdevTypeId="2124" dwVariantId="212404" szVariantDesc="控制器故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER1"/>
+  <devece dwdevTypeId="2124" dwVariantId="212405" szVariantDesc="显示模组故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER2"/>
+  <devece dwdevTypeId="2124" dwVariantId="212406" szVariantDesc="电源故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER3"/>
+  <devece dwdevTypeId="2124" dwVariantId="212407" szVariantDesc="像素点故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER4"/>
+  <devece dwdevTypeId="2124" dwVariantId="212408" szVariantDesc="检测系统故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER5"/>
+  <devece dwdevTypeId="2124" dwVariantId="212409" szVariantDesc="输入交流电故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER6"/>
+  <devece dwdevTypeId="2124" dwVariantId="212410" szVariantDesc="防雷器故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER7"/>
+  <devece dwdevTypeId="2124" dwVariantId="212411" szVariantDesc="光照检测系统故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER8"/>
+  <devece dwdevTypeId="2124" dwVariantId="212412" szVariantDesc="温度异常故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER9"/>
+  <devece dwdevTypeId="2124" dwVariantId="212413" szVariantDesc="通讯状态" dwSendCmd="00" dwRecvCmd="00" szFuncAbbr="COM"/>
+  <devece dwdevTypeId="2124" dwVariantId="212414" szVariantDesc="设备重启命令" dwSendCmd="11" dwRecvCmd="11" szFuncAbbr="RES"/>
+
+  <devece dwdevTypeId="2125" dwVariantId="212501" szVariantDesc="播放表" dwSendCmd="10" dwRecvCmd="10" szFuncAbbr="LST"/>
+  <devece dwdevTypeId="2125" dwVariantId="212502" szVariantDesc="亮度" dwSendCmd="03" dwRecvCmd="03" szFuncAbbr="BRI"/>
+  <devece dwdevTypeId="2125" dwVariantId="212503" szVariantDesc="亮度模式" dwSendCmd="03" dwRecvCmd="03" szFuncAbbr="MOD"/>
+  <devece dwdevTypeId="2125" dwVariantId="212504" szVariantDesc="控制器故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER1"/>
+  <devece dwdevTypeId="2125" dwVariantId="212505" szVariantDesc="显示模组故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER2"/>
+  <devece dwdevTypeId="2125" dwVariantId="212506" szVariantDesc="电源故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER3"/>
+  <devece dwdevTypeId="2125" dwVariantId="212507" szVariantDesc="像素点故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER4"/>
+  <devece dwdevTypeId="2125" dwVariantId="212508" szVariantDesc="检测系统故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER5"/>
+  <devece dwdevTypeId="2125" dwVariantId="212509" szVariantDesc="输入交流电故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER6"/>
+  <devece dwdevTypeId="2125" dwVariantId="212510" szVariantDesc="防雷器故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER7"/>
+  <devece dwdevTypeId="2125" dwVariantId="212511" szVariantDesc="光照检测系统故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER8"/>
+  <devece dwdevTypeId="2125" dwVariantId="212512" szVariantDesc="温度异常故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER9"/>
+  <devece dwdevTypeId="2125" dwVariantId="212513" szVariantDesc="通讯状态" dwSendCmd="00" dwRecvCmd="00" szFuncAbbr="COM"/>
+  <devece dwdevTypeId="2125" dwVariantId="212514" szVariantDesc="设备重启命令" dwSendCmd="11" dwRecvCmd="11" szFuncAbbr="RES"/>
+
+  <devece dwdevTypeId="2221" dwVariantId="222101" szVariantDesc="播放表" dwSendCmd="10" dwRecvCmd="10" szFuncAbbr="LST"/>
+  <devece dwdevTypeId="2221" dwVariantId="222102" szVariantDesc="亮度" dwSendCmd="03" dwRecvCmd="03" szFuncAbbr="BRI"/>
+  <devece dwdevTypeId="2221" dwVariantId="222103" szVariantDesc="亮度模式" dwSendCmd="03" dwRecvCmd="03" szFuncAbbr="MOD"/>
+  <devece dwdevTypeId="2221" dwVariantId="222104" szVariantDesc="控制器故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER1"/>
+  <devece dwdevTypeId="2221" dwVariantId="222105" szVariantDesc="显示模组故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER2"/>
+  <devece dwdevTypeId="2221" dwVariantId="222106" szVariantDesc="电源故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER3"/>
+  <devece dwdevTypeId="2221" dwVariantId="222107" szVariantDesc="像素点故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER4"/>
+  <devece dwdevTypeId="2221" dwVariantId="222108" szVariantDesc="检测系统故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER5"/>
+  <devece dwdevTypeId="2221" dwVariantId="222109" szVariantDesc="输入交流电故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER6"/>
+  <devece dwdevTypeId="2221" dwVariantId="222110" szVariantDesc="防雷器故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER7"/>
+  <devece dwdevTypeId="2221" dwVariantId="222111" szVariantDesc="光照检测系统故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER8"/>
+  <devece dwdevTypeId="2221" dwVariantId="222112" szVariantDesc="温度异常故障" dwSendCmd="01" dwRecvCmd="01" szFuncAbbr="ER9"/>
+  <devece dwdevTypeId="2221" dwVariantId="222113" szVariantDesc="通讯状态" dwSendCmd="00" dwRecvCmd="00" szFuncAbbr="COM"/>
+  <devece dwdevTypeId="2221" dwVariantId="222114" szVariantDesc="设备重启命令" dwSendCmd="11" dwRecvCmd="11" szFuncAbbr="RES"/>
+</devVarList>

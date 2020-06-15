@@ -1,6 +1,5 @@
 package com.boco.njjx.tcpcomm;
 
-import com.boco.njjx.tcpcomm.IMessageListener;
 import com.boco.njjx.model.Response;
 
 import io.netty.channel.ChannelHandlerContext;

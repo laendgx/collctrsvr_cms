@@ -1,4 +1,4 @@
-package com.boco.njjx.commconfig;
+package com.boco.njjx.commconfig.devvarinfoconfig;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,8 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "devece")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DevVarCollInfo {
-    @XmlAttribute(name = "dwdevTypeid")   //设备变量类型编码
-    private Integer dwdevTypeid;
+    @XmlAttribute(name = "dwdevTypeId")   //设备变量类型编码
+    private Integer dwdevTypeId;
     @XmlAttribute(name = "dwVariantId")   //设备变量编码
     private Integer dwVariantId;
     @XmlAttribute(name = "szVariantDesc") //设备变量描述

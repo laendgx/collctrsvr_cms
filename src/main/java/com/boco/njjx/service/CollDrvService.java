@@ -1,10 +1,10 @@
 package com.boco.njjx.service;
 
-import com.boco.njjx.commconfig.DevVarCollInfo;
-import com.boco.njjx.commconfig.DevVarCollInfoDataServiceImpl;
-import com.boco.njjx.commconfig.DevcommInfo;
-import com.boco.njjx.commconfig.DevcommInfoDataServiceImpl;
-import com.boco.njjx.commonCenter.CommonSendQueueListener;
+import com.boco.njjx.commconfig.devvarinfoconfig.DevVarCollInfo;
+import com.boco.njjx.commconfig.devvarinfoconfig.DevVarCollInfoDataServiceImpl;
+import com.boco.njjx.commconfig.devcommconfig.DevcommInfo;
+import com.boco.njjx.commconfig.devcommconfig.DevcommInfoDataServiceImpl;
+import com.boco.njjx.commrabbitmq.CommonSendQueueListener;
 import com.boco.njjx.constant.DriverConst;
 import com.boco.njjx.driver.TCommPortInfo;
 import com.boco.njjx.driver.TDriver;
@@ -25,9 +25,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -87,9 +85,9 @@ public class CollDrvService implements InitializingBean,DisposableBean {
     private void initExecutorService() throws Exception {
         //获取设备通讯信息
         DevcommInfo DevcommInfotemp=devcommInfoDataServiceImpl.getCurDevcommInfo("21210001");
-        if(!DevcommInfotemp.getDevid().equals(null)) {
-            String devip = DevcommInfotemp.getDevip();
-            String devport = DevcommInfotemp.getDevport();
+        if(!DevcommInfotemp.getDevId().equals(null)) {
+            String devip = DevcommInfotemp.getDevIp();
+            String devport = DevcommInfotemp.getDevPort();
 
             ftcpComm = new TTCPComm(devip, Integer.valueOf(devport), portStatusListener, messageListener);
             ftcpComm2 = new TTCPComm(devip, 3333, portStatusListener, messageListener);
@@ -111,16 +109,16 @@ public class CollDrvService implements InitializingBean,DisposableBean {
     private void initDriver(){
         try {
             //List<TDriverVarInfo> devDriverVarInfo= new ArrayList<>();//Arrays.asList(TDriverList.getDriverVariantInfo());
-            List<DevcommInfo> DevcommInfotempList = devcommInfoDataServiceImpl.listDevcommInfo();
+            List<DevcommInfo> DevcommInfotempList = devcommInfoDataServiceImpl.getDevcommInfoList();
 
             for (int i=0;i<DevcommInfotempList.size();i++){
-                String DevTypeid=DevcommInfotempList.get(i).getDevid().substring(0,4);
+                String DevTypeid=DevcommInfotempList.get(i).getDevId().substring(0,4);
                 TCommPortInfo tCommPortInfo=new TCommPortInfo();
-                tCommPortInfo.setDwDriverId(Integer.valueOf(DevcommInfotempList.get(i).getCommid()));
-                tCommPortInfo.setSzDevId(DevcommInfotempList.get(i).getDevid());
-                tCommPortInfo.setSzDevIp(DevcommInfotempList.get(i).getDevip());
-                tCommPortInfo.setDwDevPort(Integer.valueOf(DevcommInfotempList.get(i).getDevport()));
-                tCommPortInfo.setSzAddressParam(DevcommInfotempList.get(i).getDevaddr());
+                tCommPortInfo.setDwDriverId(Integer.valueOf(DevcommInfotempList.get(i).getCommId()));
+                tCommPortInfo.setSzDevId(DevcommInfotempList.get(i).getDevId());
+                tCommPortInfo.setSzDevIp(DevcommInfotempList.get(i).getDevIp());
+                tCommPortInfo.setDwDevPort(Integer.valueOf(DevcommInfotempList.get(i).getDevPort()));
+                tCommPortInfo.setSzAddressParam(DevcommInfotempList.get(i).getDevAddr());
                 tCommPortInfo.setExchangeName(env.getProperty("exchangeName").toString());
                 tCommPortInfo.setSendQueueroutingkey(env.getProperty("sendQueueroutingkey"));
 
@@ -128,7 +126,7 @@ public class CollDrvService implements InitializingBean,DisposableBean {
                 List<DevVarCollInfo> DevVarCollInfotempList = devVarCollInfoDataServiceImpl.getCurDevVarCollInfo(DevTypeid);
                 for (int j=0;j<DevVarCollInfotempList.size();j++) {
                     TDriverVarInfo TDriverVarInfoTemp=new TDriverVarInfo();
-                    TDriverVarInfoTemp.setDwdevTypeid(DevVarCollInfotempList.get(j).getDwdevTypeid());
+                    TDriverVarInfoTemp.setDwdevTypeid(DevVarCollInfotempList.get(j).getDwdevTypeId());
                     TDriverVarInfoTemp.setDwVariantId(DevVarCollInfotempList.get(j).getDwVariantId());
                     TDriverVarInfoTemp.setSzVariantDesc(DevVarCollInfotempList.get(j).getSzVariantDesc());
                     TDriverVarInfoTemp.setDwSendCmd(DevVarCollInfotempList.get(j).getDwSendCmd());

@@ -1,7 +1,6 @@
 package com.boco.njjx.model;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import com.boco.njjx.utils.CoderUtils;
 

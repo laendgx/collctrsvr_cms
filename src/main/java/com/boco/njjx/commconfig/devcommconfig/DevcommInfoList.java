@@ -1,4 +1,4 @@
-package com.boco.njjx.commconfig;
+package com.boco.njjx.commconfig.devcommconfig;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +18,6 @@ import java.util.List;
 public class DevcommInfoList {
 
     @XmlElement(name = "devece")
-    private List<DevcommInfo> devcommInfoLst;
+    private List<DevcommInfo> devcommInfoList;
 
 }

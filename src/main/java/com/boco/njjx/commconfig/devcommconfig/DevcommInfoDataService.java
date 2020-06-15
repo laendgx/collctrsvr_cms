@@ -1,8 +1,8 @@
-package com.boco.njjx.commconfig;
+package com.boco.njjx.commconfig.devcommconfig;
 
 import java.util.List;
 
 public interface DevcommInfoDataService {
-    List<DevcommInfo> listDevcommInfo() throws Exception;
+    List<DevcommInfo> getDevcommInfoList() throws Exception;
     DevcommInfo getCurDevcommInfo(String devid)  throws Exception;
 }

@@ -221,7 +221,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
     {
 		String devvartypeid=devVarInfo.getDevVarTypeId();
 		String sendStr = devVarInfo.getDevVarValue();
-		//LOGGER.info("-------------------------->下发数据"+devvartypeid+" "+sendStr);
+		//LOGGER.info("businessNo下发数据"+devvartypeid+" "+sendStr);
 
 		boolean result = false;
         Request Frm;
@@ -241,12 +241,13 @@ public class TDriver implements IMessageListener, IPortStatusListener {
         {
             case DriverConst.Const_Cmd_PlayLst: //播放表
 				//Playlist wewqrwq=  (Playlist)JSONToObj(sendStr,Playlist.class);//下发播放表信息
-				GroupNJJXCmsProtocol NJJXCmsProtocol=new GroupNJJXCmsProtocol();
-				String playlist = NJJXCmsProtocol.buildProtocal(sendStr);
-             	System.out.println("下发播放表--->"+playlist);
+				GroupNJJXCmsProtocol CmsProtocol=new GroupNJJXCmsProtocol();
+				String playlist = CmsProtocol.buildProtocal(sendStr);
+             	//System.out.println("下发播放表--->"+playlist);
 
+				LOGGER.info("下发数据--->businessNo:"+businessNo+"播放表:"+playlist);
             	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            	baos.write("PLAY.LST".getBytes("utf-8"));
+            	baos.write("PLAY.LST".getBytes("GBK"));
 
             	//加入文件名结束符
             	byte[] fileNameOverFlagArr = new byte[]{0x2B};
@@ -255,7 +256,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
             	byte[] connArr = new byte[]{0,0,0,0};
             	baos.write(connArr);
 
-            	baos.write(playlist.getBytes("utf-8"));
+            	baos.write(playlist.getBytes("GBK"));
 
             	ArrSend = baos.toByteArray();
                 break;
@@ -281,7 +282,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 						Dummy = "1" + CoderUtils.IntTo2SizeString(fValue)
 								+ CoderUtils.IntTo2SizeString(fValue)
 								+ CoderUtils.IntTo2SizeString(fValue);
-						ArrSend = Dummy.getBytes("utf-8");
+						ArrSend = Dummy.getBytes("GBK");
 					} catch (Exception ex) {
 						LOGGER.error("控制情报板亮度时，下发的数据无法转换为整型数.错误信息:"
 								+ ex.getMessage());
@@ -356,7 +357,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 			SetStatus(ConstVarient.COMM_STATUS_Connected);
 			
 			//停止超时等待
-			stopWaitTimer(); 
+			//stopWaitTimer();
 
             Request Frm = fwindow.getCurrentFrame();
             if (Frm == null)
@@ -365,14 +366,14 @@ public class TDriver implements IMessageListener, IPortStatusListener {
             }
 
             int Cmd = Frm.getFrameType(); //获得当前的命令
-            if ((Cmd == DriverConst.Const_Cmd_PlayLst) || (Cmd == DriverConst.Const_Cmd_EasyLst) || (Cmd == DriverConst.Const_Cmd_ScrOnOff))
-            {
-                if (resp.getDataArray()[0] != DriverConst.Const_Answer_Success)
-                {
-                    CheckReSendTime(); //重发
-                    return;
-                }
-            }
+//            if ((Cmd == DriverConst.Const_Cmd_PlayLst) || (Cmd == DriverConst.Const_Cmd_EasyLst) || (Cmd == DriverConst.Const_Cmd_ScrOnOff))
+//            {
+//                if (resp.getDataArray()[0] != DriverConst.Const_Answer_Success)
+//                {
+//                    //CheckReSendTime(); //重发
+//                    return;
+//                }
+//            }
             
             Frm = fwindow.processRecvAnswer();
             if (Frm == null)
@@ -386,6 +387,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
             //应答信息
             if ((Cmd == DriverConst.Const_Cmd_PlayLst) || (Cmd == DriverConst.Const_Cmd_Bright)|| (Cmd == DriverConst.Const_Cmd_Restart))
             {
+				LOGGER.info("接收数据下发成功反馈" );
                 if (resp.getDataArray()[0] == DriverConst.Const_Answer_Success)
                 {
 					RabbitmqCtrlCmdback(businessNo, true);
@@ -440,6 +442,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 			String Sendjsonstr = object.toString();
 
 			SendRabbitmqQueue(portInfo.getExchangeName(),portInfo.getSendQueueroutingkey(), Sendjsonstr);
+			LOGGER.info("Send  Info to Rabbitmq-->"+Sendjsonstr);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("下发数据异常发生异常" + ex.toString());
@@ -604,7 +607,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
         try
         {
             ftcpComm.sendMsg(FPktToSend);;
-            startWaitTimer(Continue);
+            //startWaitTimer(Continue);
             result = true;
         }
         catch (Exception ex)
@@ -663,7 +666,7 @@ public class TDriver implements IMessageListener, IPortStatusListener {
         	//设置超时
         	this.SetStatus(ConstVarient.COMM_STATUS_DisConnect);
 
-            stopWaitTimer();
+            //stopWaitTimer();
 
             Frm = fwindow.getCurrentFrame(); //获得当前操作的数据帧
             if (Frm != null)
@@ -784,19 +787,18 @@ public class TDriver implements IMessageListener, IPortStatusListener {
 	/**
 	 * rabbitmq通讯发送接口
 	 */
-	public void  SendRabbitmqQueue(String Exchange,String RoutingKey,String jsonstr)
-	{
+	public void  SendRabbitmqQueue(String Exchange,String RoutingKey,String jsonstr){
 		try {
 			if (jsonstr != null || jsonstr != "") {
 				rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
 				rabbitTemplate.setExchange(Exchange);
 				rabbitTemplate.setRoutingKey(RoutingKey);
 				rabbitTemplate.convertAndSend(jsonstr);
-//				System.out.println("SendRabbitmq: " + "\n" + "Exchange-->" + Exchange + "   " +
+//				LOGGER.info("SendRabbitmq: " + "\n" + "Exchange-->" + Exchange + "   " +
 //						"RoutingKey-->" + RoutingKey + "\n" + jsonstr);
 			} else {
-//				System.out.println("SendRabbitmq数据发送不能为空， " + "\n" + "Exchange-->" + Exchange +
-//						"RoutingKey-->" + RoutingKey + "\n" + jsonstr);
+				LOGGER.info("SendRabbitmq数据发送不能为空， " + "\n" + "Exchange-->" + Exchange +
+						"RoutingKey-->" + RoutingKey + "\n" + jsonstr);
 			}
 		}catch (Exception ex){
 			ex.printStackTrace();

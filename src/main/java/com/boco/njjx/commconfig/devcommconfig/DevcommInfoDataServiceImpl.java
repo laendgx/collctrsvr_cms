@@ -42,11 +42,11 @@ public class DevcommInfoDataServiceImpl implements DevcommInfoDataService {
                 resource = new ClassPathResource("config/devCommConfig.xml");
                 //可放到linux服务器中
 //                InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/devCommConfig.xml");
-//                BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"));
+//                BufferedReader br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
             }
 
             //利用输入流获取XML文件内容
-            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "utf-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
 
             String line = "";
             while ((line = br.readLine()) != null) {
@@ -71,7 +71,7 @@ public class DevcommInfoDataServiceImpl implements DevcommInfoDataService {
         //读取Resource目录下的XML文件
         Resource resource = new ClassPathResource("config/devCommConfig.xml");
         //利用输入流获取XML文件内容
-        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "utf-8"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
         StringBuffer buffer = new StringBuffer();
         String line = "";
         while ((line = br.readLine()) != null) {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <devCommCon>
   <devece commId="1" devId="21240001" devIp="127.0.0.1" devPort="2222" devAddr="1"/>
   <devece commId="2" devId="21240002" devIp="127.0.0.1" devPort="3333" devAddr="1"/>

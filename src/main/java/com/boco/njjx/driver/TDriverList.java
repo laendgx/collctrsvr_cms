@@ -108,7 +108,7 @@ public class TDriverList {
 					driver.startDriver();
 				}
 			} catch (Exception ex) {
-				LOGGER.error("启动三思情报板驱动错误.错误信息：" + ex.getMessage());
+				LOGGER.error("启动金晓情报板驱动错误.错误信息：" + ex.getMessage());
 			}
 			//5000为设备状态采集周期
 			service.scheduleWithFixedDelay(runnable, 1000, 5000, TimeUnit.MILLISECONDS);
@@ -124,13 +124,13 @@ public class TDriverList {
     				driver.stopDriver();
     			}
     		}catch(Exception ex){
-    			LOGGER.error("停止三思情报板驱动错误，stopDrivers。错误信息：" + ex.getMessage());
+    			LOGGER.error("停止金晓情报板驱动错误，stopDrivers。错误信息：" + ex.getMessage());
     		}
     		
     		try{
     			service.shutdownNow();
     		}catch(Exception ex){
-    			LOGGER.error("停止三思驱动，故障检测定时器错误。错误信息：" + ex.getMessage());
+    			LOGGER.error("停止金晓驱动，故障检测定时器错误。错误信息：" + ex.getMessage());
     		}
     	}
     }

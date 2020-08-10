@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 驱动程序提供的设备变量种类信息
- * @author 孙冠义
+ * @author dgx
  *
  */
 public class TDriverVarInfo implements Serializable {

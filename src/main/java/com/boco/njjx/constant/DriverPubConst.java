@@ -2,7 +2,7 @@ package com.boco.njjx.constant;
 
 /**
  * 驱动内部用到的常量
- * @author 孙冠义
+ * @author dgx
  *
  */
 public class DriverPubConst {

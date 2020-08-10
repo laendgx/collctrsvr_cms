@@ -61,7 +61,7 @@ public class CommonSendQueueListener {
                     RabbitmqDevStatusSend(revprotocolbody.getSubPackage().getDevId());
                     break;
                 default :
-                    System.out.println("无效处理数据-->" + revdatabody);
+                    logger.debug("无效处理数据-->" + revdatabody);
             }
         }catch ( Exception e) {
             logger.error("数据包转发异常"+e.toString());
@@ -80,11 +80,13 @@ public class CommonSendQueueListener {
             } else {
                 DevVarInfo DevVarInfotemp = (DevVarInfo) (revprotocolbody.getSubPackage().getDevVarInfoList().get(0));
 
-                System.out.println("发送数据" + DevVarInfotemp.getDevVarTypeId() + "-->" + DevVarInfotemp.getDevVarValue());
+                //System.out.println("发送数据" + DevVarInfotemp.getDevVarTypeId() + "-->" + DevVarInfotemp.getDevVarValue());
+
+                logger.info("发送数据-->"+ DevVarInfotemp.getDevVarTypeId() + "-->" + DevVarInfotemp.getDevVarValue());
                 driver.sendData(revprotocolbody.getBusinessNo(), DevVarInfotemp);
             }
         } catch (Exception e) {
-            System.out.println("数据发送异常" + e.toString());
+            logger.debug("数据发送异常" + e.toString());
         }
     }
 
@@ -109,9 +111,9 @@ public class CommonSendQueueListener {
             returnState.setReturnCode(ReturnCode.ReturnCode_unknown);
             switch (DevStatus) {
                 case 1:
-                    returnState.setReturnMessage("采集服务无此设备id: " + revprotocolbody.getSubPackage().getDevId());
+                    returnState.setReturnMessage("采集服务无此设备");
                 case 2:
-                    returnState.setReturnMessage("设备通讯中断" + revprotocolbody.getSubPackage().getDevId());
+                    returnState.setReturnMessage("设备通讯中断" );//("设备通讯中断" + revprotocolbody.getSubPackage().getDevId());
             }
             Protocolbodytemp.setReturnState(returnState);
             JSONObject object = JSONObject.fromObject(Protocolbodytemp);
@@ -121,7 +123,7 @@ public class CommonSendQueueListener {
 
 
         } catch (Exception e) {
-            System.out.println("数据发送异常" + e.toString());
+            logger.debug("InvalidDevBack is error-->" + e.toString());
         }
     }
 
@@ -163,7 +165,12 @@ public class CommonSendQueueListener {
                                             DevVarInfo devVarInfo = new DevVarInfo();
                                             devVarInfo.setDevVarTypeId(driverVarInfo.getDwVariantId().toString());
                                             devVarInfo.setDevVarTypeDesc(driverVarInfo.getSzVariantDesc());
-                                            devVarInfo.setDevVarValue(String.valueOf(driver.FStatus));
+                                            String devstatus ="0";
+                                            if (driver.FStatus == ConstVarient.COMM_STATUS_Connected)
+                                                devstatus="0";
+                                            else
+                                                devstatus="1";
+                                            devVarInfo.setDevVarValue(devstatus);
                                             devVarInfo.setDevVarGroupId("1");
                                             DevVarInfolist.add(devVarInfo);
                                         } catch (Exception ex) {
@@ -182,7 +189,7 @@ public class CommonSendQueueListener {
                         }
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        System.out.println("上传设备通讯状态异常-->" + ex.toString());
+                        logger.debug("上传设备通讯状态异常-->" + ex.toString());
                     }
                 }
             } else {
@@ -216,7 +223,12 @@ public class CommonSendQueueListener {
                                         DevVarInfo devVarInfo = new DevVarInfo();
                                         devVarInfo.setDevVarTypeId(driverVarInfo.getDwVariantId().toString());
                                         devVarInfo.setDevVarTypeDesc(driverVarInfo.getSzVariantDesc());
-                                        devVarInfo.setDevVarValue(String.valueOf(driver.FStatus));
+                                        String devstatus ="0";
+                                        if (driver.FStatus == ConstVarient.COMM_STATUS_Connected)
+                                            devstatus="0";
+                                        else
+                                            devstatus="1";
+                                        devVarInfo.setDevVarValue(devstatus);
                                         devVarInfo.setDevVarGroupId("1");
                                         DevVarInfolist.add(devVarInfo);
                                     } catch (Exception ex) {
@@ -234,12 +246,12 @@ public class CommonSendQueueListener {
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    System.out.println("上传所有设备状态异常-->" + ex.toString());
+                    logger.debug("上传所有设备状态异常-->" + ex.toString());
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println("下发数据发生异常-->" + ex.toString());
+            logger.debug("下发数据发生异常-->" + ex.toString());
         }
 
     }
@@ -250,7 +262,7 @@ public class CommonSendQueueListener {
     public void  SendRabbitmqQueue(String Exchange,String RoutingKey,String jsonstr) {
         try {
             if (jsonstr == null || jsonstr.equals("")) {
-                System.out.println("SendRabbitmq数据发送不能为空， " + "\n" + "Exchange-->" + Exchange +
+                logger.info("SendRabbitmq数据发送不能为空， " + "\n" + "Exchange-->" + Exchange +
                         "RoutingKey-->" + RoutingKey + "\n" + jsonstr);
                 return;
             }
@@ -258,7 +270,9 @@ public class CommonSendQueueListener {
             rabbitTemplate.setExchange(Exchange);
             rabbitTemplate.setRoutingKey(RoutingKey);
             rabbitTemplate.convertAndSend(jsonstr);
-            System.out.println("SendRabbitmq: " + "\n" + "Exchange-->" + Exchange + "   " +
+//            System.out.println("SendRabbitmq: " + "\n" + "Exchange-->" + Exchange + "   " +
+//                    "RoutingKey-->" + RoutingKey + "\n" + jsonstr);
+            logger.info("SendRabbitmq: " + "\n" + "Exchange-->" + Exchange + "   " +
                     "RoutingKey-->" + RoutingKey + "\n" + jsonstr);
         }catch (Exception ex){
             ex.printStackTrace();

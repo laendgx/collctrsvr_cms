@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * UDP通信参数类
- * @author 孙冠义
+ * @author dgx
  *
  */
 public class TUDPCommParam implements Serializable {

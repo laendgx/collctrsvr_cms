@@ -3,7 +3,7 @@ package com.boco.njjx.driver;
 import java.io.Serializable;
 /**
  * 用于注册通信端口的信息
- * @author 孙冠义
+ * @author dgx
  *
  */
 public class TCommPortInfo implements Serializable {

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 设备变量寻址信息
- * @author 孙冠义
+ * @author dgx
  *
  */
 public class TAddressInfo implements Serializable {

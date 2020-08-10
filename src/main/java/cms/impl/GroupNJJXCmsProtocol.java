@@ -63,11 +63,11 @@ public class GroupNJJXCmsProtocol {
 			Integer speed = 0;
 			
 			if (trans > 5){
-				trans = 1;
-			}
+			trans = 1;//目前仅有5中播放方式
+		}
 			
 			String protocolString = delay + "," + trans + "," + speed + ",";
-			
+
 			List<IconList> graphs = item.getGraphList();
 			String graphProtocol = graphParaToString(graphs);
 			protocolString += graphProtocol;
@@ -144,8 +144,8 @@ public class GroupNJJXCmsProtocol {
 			}
 
 			//字间距
-			result += "\\S" + "0";
-			
+			result += "\\S" + this.workspaceTo2SizeString(0);
+
 			//文字内容
 			if (para.getWc() != null){
 				result += para.getWc();
@@ -154,7 +154,28 @@ public class GroupNJJXCmsProtocol {
 		
 		return result;
 	}
-	
+
+	/**
+	 * 将字间距转换为两位的字符串
+	 * @param value
+	 * @return
+	 */
+	private String workspaceTo2SizeString(Integer value){
+		String result = "00";
+
+		if (value == null){
+			return result;
+		}
+
+		if (value > 99){
+			result = "99";
+			return result;
+		}
+
+		result = String.format("%02d", value);
+		return result;
+	}
+
 	/**
 	 * 将可变情报板图标参数转换为协议字符串
 	 */
@@ -201,7 +222,7 @@ public class GroupNJJXCmsProtocol {
 				result="000255000000";
 				break;
 			case "y":
-				result="255000000000";
+				result="255255000000";
 				break;
 		}
 

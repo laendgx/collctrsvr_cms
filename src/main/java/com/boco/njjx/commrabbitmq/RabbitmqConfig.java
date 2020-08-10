@@ -15,7 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -88,15 +89,19 @@ public class RabbitmqConfig {
         return rabbitTemplate;
     }
 
-    @Bean
-    public Queue DirectQueue() {
-        return new Queue(env.getProperty("sendQueueName"),true);  //true 是否持久
-    }
-
     //Direct交换机
     @Bean
     DirectExchange DirectExchange() {
         return new DirectExchange(env.getProperty("exchangeName"));
+    }
+
+    @Bean
+    public Queue DirectQueue() {
+        // return new Queue(env.getProperty("sendQueueName"),true);  //true 是否持久
+        Map<String,Object> map = new HashMap<>(16);
+        map.put("x-message-ttl",10000);
+        return new Queue(env.getProperty("sendQueueName"),true,false,false,map);
+
     }
 
     //绑定  将队列和交换机绑定, 并设置用于匹配键：SendKey
@@ -104,5 +109,24 @@ public class RabbitmqConfig {
     Binding bindingDirect() {
         return BindingBuilder.bind(DirectQueue()).to(DirectExchange()).with(env.getProperty("sendQueueroutingkey"));
     }
+
+    /**
+     * 创建设备采集服务接收队列信息 Gzfh
+     *
+     * @return
+     */
+    @Bean
+    public Queue devCollrevDirectQueueRev() {
+        Map<String,Object> map = new HashMap<>(16);
+        map.put("x-message-ttl",10000);
+        return new Queue(env.getProperty("revQueueName"),true,false,false,map);
+    }
+
+    //绑定  将队列路由key和交换机绑定,
+    @Bean
+    Binding bindingDirectRev() {
+        return BindingBuilder.bind(devCollrevDirectQueueRev()).to(DirectExchange()).with(env.getProperty("revQueueKey"));
+    }
+
 
 }

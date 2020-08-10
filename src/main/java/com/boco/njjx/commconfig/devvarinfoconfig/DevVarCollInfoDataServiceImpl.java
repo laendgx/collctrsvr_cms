@@ -37,14 +37,15 @@ public class DevVarCollInfoDataServiceImpl implements DevVarCollInfoDataService 
                 resource = new ClassPathResource("config/devVarListConfig.xml");
                 //可放到linux服务器中
 //                InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/devCommConfig.xml");
-//                BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"));
+//                BufferedReader br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
             }
 
 
             //利用输入流获取XML文件内容
-            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "utf-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
             String line = "";
-            while ((line = br.readLine()) != null) {// logger.info(line);
+            while ((line = br.readLine()) != null) {
+                //logger.info(line);
                 buffer.append(line);
             }
             br.close();
@@ -64,25 +65,26 @@ public class DevVarCollInfoDataServiceImpl implements DevVarCollInfoDataService 
         try {
             File file = new File("config/devVarListConfig.xml"); // 这里表示从jar同级目录加载
             if (!file.exists()) { // 如果同级目录没有，则去config下面找
-                logger.info("getDevVarInfoList读取路径----------------->!file.exists()");
+                //logger.info("getDevVarInfoList读取路径----------------->!file.exists()");
                 file = new File("config/devVarListConfig.xml");
             }
 
             Resource resource = new FileSystemResource(file);
 
             if (!resource.exists()) { //config目录下还是找不到，那就直接用classpath下的
-                logger.info("getDevVarInfoList读取路径----------------->从jar包中获取");
+                //logger.info("getDevVarInfoList读取路径----------------->从jar包中获取");
                 resource = new ClassPathResource("config/devVarListConfig.xml");
                 //可放到linux服务器中
 //                InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/devCommConfig.xml");
-//                BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"));
+//                BufferedReader br = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
             }
 
             //利用输入流获取XML文件内容
-            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "utf-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
 
             String line = "";
             while ((line = br.readLine()) != null) {
+                //logger.info(line);
                 buffer.append(line);
             }
             br.close();

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 串口通信参数类
- * @author 孙冠义
+ * @author dgx
  *
  */
 public class TSerialCommParam implements Serializable {

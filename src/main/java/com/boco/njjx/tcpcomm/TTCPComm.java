@@ -109,9 +109,9 @@ public class TTCPComm implements Runnable {
 				if (f.isSuccess()) {
 					//上传端口状态
 	            	portStatusListener.onPortStatusChanged(true);
-					LOGGER.info("Host-" + host_ + ", Port-" + port_ + " 连接服务器成功");
+					//LOGGER.info("Host-" + host_ + ", Port-" + port_ + " Successfully connected to the server");
 				} else {
-					LOGGER.error("Host-" + host_ + ", Port-" + port_ + " 连接服务器失败");
+					LOGGER.error("Host-" + host_ + ", Port-" + port_ + " Failed to connect to the server");
 				}
 			}
 		};
@@ -121,7 +121,7 @@ public class TTCPComm implements Runnable {
      * 连接到服务端
      */
     private void doConnect() {    	
-    	LOGGER.info("Host-" + host_ + ", Port-" + port_ + " doConnect");
+    	//LOGGER.info("Host-" + host_ + ", Port-" + port_ + " doConnect");
         ChannelFuture future = null;
         if (channel != null){
         	try{
@@ -142,10 +142,10 @@ public class TTCPComm implements Runnable {
         } catch (Exception e) {
             //上传端口状态
         	portStatusListener.onPortStatusChanged(false);
-        	LOGGER.error("Host-" + host_ + ", Port-" + port_ + "关闭连接");
+        	LOGGER.error("Host-" + host_ + ", Port-" + port_ + "Close connection");
         } finally{
         	if (!isCloseFlag){
-        		LOGGER.error("连接已经断开，进入重连操作");
+        		LOGGER.error("The connection has been disconnected. The reconnection operation is in progress");
         		//上传端口状态
             	portStatusListener.onPortStatusChanged(false);
 	        	
@@ -174,7 +174,7 @@ public class TTCPComm implements Runnable {
     			channel.writeAndFlush(request);
     		}
     	}catch(Exception ex){
-    		LOGGER.error("Host-" + host_ + ", Port-" + port_ + " 下发数据失败！");
+    		LOGGER.error("Host-" + host_ + ", Port-" + port_ + " Failed to send data!");
     	}
     }
 

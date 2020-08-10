@@ -22,6 +22,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
  *
  */
 public class ResponseDecoder extends ByteToMessageDecoder {
+
 	/**
 	 * 数据包基本长度
 	 */
@@ -30,8 +31,18 @@ public class ResponseDecoder extends ByteToMessageDecoder {
 	protected void decode(ChannelHandlerContext ctx, ByteBuf buffer,
 			List<Object> out) throws Exception {
 		int currCnt = buffer.readableBytes();
+//
+//		byte[] dealByteArr1 = new byte[buffer.readableBytes() - 1];
+//		buffer.readBytes(dealByteArr1);
+//
+//		byte[] transfer1 = CoderUtils.Transfer(dealByteArr1, dealByteArr1.length, false);
+
+//		System.out.print(CoderUtils.ByteArray2HexString(dealByteArr1));
+
 		while(true){
-			if(buffer.readableBytes() >= BASE_LENTH){								
+			//System.out.println(buffer.readByte());
+			if(buffer.readableBytes() >= BASE_LENTH){
+				//System.out.print("-----recve");
 				//第一个可读数据包的起始位置
 				int beginIndex;
 				while(true) {
@@ -52,7 +63,7 @@ public class ResponseDecoder extends ByteToMessageDecoder {
 						return;
 					}					
 				}
-				
+
 				int cnt = buffer.readableBytes();
 				//判断包尾
 				byte frameTail = buffer.getByte(cnt);
@@ -63,11 +74,14 @@ public class ResponseDecoder extends ByteToMessageDecoder {
 				
 				byte[] dealByteArr = new byte[buffer.readableBytes() - 1];
 				buffer.readBytes(dealByteArr);
-				
+
 				byte[] transfer = CoderUtils.Transfer(dealByteArr, dealByteArr.length, false);
-				
+
+
+				//System.out.println("去掉包头包尾-->   "+CoderUtils.ByteArray2HexString(transfer));
+
 				//读取地址
-				byte[] addr = new byte[2];	
+				byte[] addr = new byte[2];
 				ByteArrayInputStream bais = new ByteArrayInputStream(transfer);
 				bais.read(addr);
 				
